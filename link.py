@@ -2,11 +2,15 @@ import matplotlib as plt
 import numpy as np
 import datetime
 
+class Day:
+    def __init__(self) -> None:
+        self.score = 
+
+
 
 class Goal:
     def __init__(self, goal_name:str) -> None:
         self.goal_name = goal_name
-        self.goal_score = 0
         self.amnesty = self.set_amnesty()
         self.goal_chain = []
         self.used_amnesty = 0
@@ -36,7 +40,8 @@ class Goal:
         return
 
     def summary(self) -> None:
-        print("Goal Name: {}\n Current Goal Score: {}\n Amnesty Allowance: {}\n Amnesty Used: {}\n Total Success: {}\n Total Missed: {}\n Current Streak: {}\n Days on Goal: {}".format(self.goal_name, self.get_score(), self.get_amnesty(), self.get_used_amnesty(), ))
+        print("Goal Name: {}\n Current Goal Score: {}\n Amnesty Allowance: {}\n Amnesty Used: {}\n Total Success: {}\n Total Missed: {}\n Current Streak: {}\n Days on Goal: {}" \
+        .format(self.goal_name, self.get_score(), self.get_amnesty(), self.get_used_amnesty(), self.get_successes(), self.get_misses(), self.get_streak(), self.get_days_on_goal()))
     
     def vis_goal(self) -> None:
         pass
@@ -47,8 +52,11 @@ class Profile:
         self.name = name
         self.goals = []
 
-    def new_goal(self) -> list:
-        return self.goals.append(Goal())
+    def new_goal(self, goal_name:str) -> list:
+        return self.goals.append(Goal(goal_name))
 
 if __name__ == "__main__":
     print("hi")
+    race_peterson = Profile("Race Peterson")
+    race_peterson.new_goal("Sleep")
+    race_peterson.goals[0].summary()
