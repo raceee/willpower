@@ -4,21 +4,21 @@ import datetime
 
 class Day:
     def __init__(self) -> None:
-        self.score = 
-
-
+        self.score = 0
 
 class Goal:
     def __init__(self, goal_name:str) -> None:
         self.goal_name = goal_name
         self.amnesty = self.set_amnesty()
-        self.goal_chain = []
+        self.goal_chain = [Day()]
         self.used_amnesty = 0
+        self.goal_score = 0
     
     def set_amnesty(self) -> int:
         return int(input("How many days of amnesty do you want for this goal: "))
     
     def get_score(self) -> int:
+        # checks the last block in chain
         return self.goal_score
     
     def get_amnesty(self) -> int:
