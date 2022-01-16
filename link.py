@@ -3,7 +3,7 @@ import numpy as np
 from datetime import date
 class Day:
     def __init__(self, score=0, success=True) -> None:
-        self.score = 0
+        self.score = score
         self.date = date.today()
         self.success = success
 
@@ -12,27 +12,21 @@ class Goal:
         self.goal_name = goal_name
         self.amnesty = self.set_amnesty()
         self.amnesty_score = self.amnesty
-        self.goal_chain = [Day(success=None)]
+        self.goal_chain = [Day(success=True)]
         self.goal_score = 0
     
     def make_day(self):
         input_ = str(input("Did you complete today's goal? (y/n) "))
         if input_ == "y":
             self.goal_chain.append(Day(score=self.goal_chain[len(self.goal_chain) - 1].score + 1))
-            print("score inserted as ", self.goal_chain[len(self.goal_chain) - 1].score)
             self.reset_amnesty()
         elif input_ == "n":
-            if self.amnesty_score != 0:
-                self.amnesty_score = self.amnesty_score - 1
-                self.goal_chain.append(Day(score=self.goal_chain[len(self.goal_chain) - 1].score, success=False))
-                print("score inserted as ", self.goal_chain[len(self.goal_chain) - 1].score)
-                print("amnesty score ", self.amnesty_score)
-            else:
+            if self.amnesty_score == 0:
                 si = self.goal_chain[len(self.goal_chain) - 1].score - 1
-                print("si ", si)
                 self.goal_chain.append(Day(score=si, success=False))
-                print("score inserted as ", self.goal_chain[len(self.goal_chain) - 1].score)
-                print("amnesty score ", self.amnesty_score)
+            else:
+                self.goal_chain.append(Day(score=self.goal_chain[len(self.goal_chain) - 1].score, success=False))
+                self.amnesty_score = self.amnesty_score - 1
 
     def reset_amnesty(self):
         self.amnesty_score = self.amnesty
@@ -58,7 +52,15 @@ class Goal:
         return len(self.goal_chain) - self.get_successes()
     
     def get_streak(self) -> int:
-        return
+        self.goal_chain.reverse()
+        counter = 0
+        for day in self.goal_chain:
+            if day.success:
+                counter += 1
+            else:
+                break
+        self.goal_chain.reverse()
+        return counter
     
     def get_days_on_goal(self) -> int:
         return len(self.goal_chain)
@@ -76,10 +78,9 @@ class Profile:
         self.goals = {}
 
     def new_goal(self, goal_name:str) -> list:
-        self.goals[goal_name] = Goal(self.name)
+        self.goals[goal_name] = Goal(goal_name)
 
 if __name__ == "__main__":
-    print("hi")
     race_peterson = Profile("Race Peterson")
     race_peterson.new_goal("Sleep")
     for _ in range(10):
