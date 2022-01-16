@@ -1,6 +1,9 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import numpy as np
 from datetime import date
+import pandas as pd
+
+
 class Day:
     def __init__(self, score=0, success=True) -> None:
         self.score = score
@@ -68,6 +71,11 @@ class Goal:
     def summary(self) -> None:
         print("Goal Name: {}\n Current Goal Score: {}\n Amnesty Allowance: {}\n Current Amnesty: {}\n Total Success: {}\n Total Missed: {}\n Current Streak: {}\n Days on Goal: {}" \
         .format(self.goal_name, self.get_score(), self.get_amnesty(), self.get_used_amnesty(), self.get_successes(), self.get_misses(), self.get_streak(), self.get_days_on_goal()))
+        scores = [day.score for day in self.goal_chain]
+        plt.plot(scores)
+        plt.ylabel("Score")
+        plt.xlabel("Days")
+        plt.show()
     
     def vis_goal(self) -> None:
         pass
