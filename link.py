@@ -19,13 +19,20 @@ class Goal:
         input_ = str(input("Did you complete today's goal? (y/n) "))
         if input_ == "y":
             self.goal_chain.append(Day(score=self.goal_chain[len(self.goal_chain) - 1].score + 1))
+            print("score inserted as ", self.goal_chain[len(self.goal_chain) - 1].score)
             self.reset_amnesty()
         elif input_ == "n":
             if self.amnesty_score != 0:
-                self.amnesty_score -= 1
+                self.amnesty_score = self.amnesty_score - 1
                 self.goal_chain.append(Day(score=self.goal_chain[len(self.goal_chain) - 1].score, success=False))
+                print("score inserted as ", self.goal_chain[len(self.goal_chain) - 1].score)
+                print("amnesty score ", self.amnesty_score)
             else:
-                self.goal_chain.append(Day(score=self.goal_chain[len(self.goal_chain) - 1].score - 1, success=False))
+                si = self.goal_chain[len(self.goal_chain) - 1].score - 1
+                print("si ", si)
+                self.goal_chain.append(Day(score=si, success=False))
+                print("score inserted as ", self.goal_chain[len(self.goal_chain) - 1].score)
+                print("amnesty score ", self.amnesty_score)
 
     def reset_amnesty(self):
         self.amnesty_score = self.amnesty
@@ -75,6 +82,6 @@ if __name__ == "__main__":
     print("hi")
     race_peterson = Profile("Race Peterson")
     race_peterson.new_goal("Sleep")
-    for _ in range(6):
+    for _ in range(10):
         race_peterson.goals["Sleep"].make_day()
     race_peterson.goals["Sleep"].summary()
